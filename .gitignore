@@ -11,3 +11,5 @@ _ReSharper.*
 Thumbs.db
 *.nupkg
 .vscode
+/.vs/Html2Markdown/v16/Server/sqlite3
+/.vs

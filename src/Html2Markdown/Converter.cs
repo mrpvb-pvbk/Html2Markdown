@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Html2Markdown.Replacement;
 using Html2Markdown.Scheme;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Html2Markdown
 {
@@ -45,6 +48,33 @@ namespace Html2Markdown
 					html = StandardiseWhitespace(html);
 					return Convert(html);
 				}
+			}
+		}
+
+		/// <summary>
+		/// Converts Html contained in a file to a Markdown string and replace file
+		/// </summary>
+		/// <param name="dirPath">The path to the directory files which are being converted</param>
+		/// <returns>A Markdown representation of the passed in Html</returns>
+		public void ConvertFiles2Replace(string dirPath)
+		{
+			var filePaths = Directory.GetFiles(dirPath, "*.html");
+			foreach (string path in filePaths) {
+				using (var streamWrite = new FileStream(path.Replace(".html", ".markdown"), FileMode.CreateNew))
+				{
+					using (var stream = new FileStream(path, FileMode.Open))
+					{
+						using (var reader = new StreamReader(stream))
+						{
+							var html = reader.ReadToEnd();
+							html = StandardiseWhitespace(html);
+							byte[] info = new UTF8Encoding(true).GetBytes(Convert(html));
+
+							streamWrite.Write(info, 0, info.Length);
+						}
+					}
+				}
+				File.Delete(path);
 			}
 		}
 
