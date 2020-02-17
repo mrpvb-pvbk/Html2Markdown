@@ -1,23 +1,11 @@
 # HTML2Markdown
+## mrpvb-pvbk mod with some advanced features
 
 Converts HTML to [Markdown](http://daringfireball.net/projects/markdown/syntax).
-
-[![Join the chat at https://gitter.im/Html2Markdown/Lobby](https://badges.gitter.im/Html2Markdown/Lobby.svg)](https://gitter.im/Html2Markdown/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ---
 
 ![Html2Markdown](https://cloud.githubusercontent.com/assets/1049999/11505182/0480ad76-9841-11e5-8a62-126d4b7c03be.png)
-
-## Build Status
-
-| Branch | Status |
-| ------ | ------ |
-| master | [![master](https://ci.appveyor.com/api/projects/status/cbi6sknslvu3rq6n/branch/master?svg=true)](https://ci.appveyor.com/project/baynezy/html2markdown/branch/master) |
-| develop | [![develop](https://ci.appveyor.com/api/projects/status/cbi6sknslvu3rq6n/branch/develop?svg=true)](https://ci.appveyor.com/project/baynezy/html2markdown/branch/develop) |
-
-## Code Quality
-
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b8acbfab2c434cdf91ea2f90ac91dad6)](https://www.codacy.com/app/baynezy/Html2Markdown?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=baynezy/Html2Markdown&amp;utm_campaign=Badge_Grade)
 
 ## Support
 
@@ -44,7 +32,7 @@ This project will currently convert the following HTML tags:-
 - `<ul>`
 - `<ol>`
 
-## Installing via NuGet
+## Installing via NuGet base version
 
 [![NuGet version](https://badge.fury.io/nu/Html2Markdown.svg)](http://badge.fury.io/nu/Html2Markdown)
 
@@ -68,6 +56,14 @@ var markdown = converter.Convert(html);
 var path = "file.html";
 var converter = new Converter();
 var markdown = converter.ConvertFile(path);
+```
+
+### Replace files in directory
+
+```csharp
+var dirPath = @"C:\Users\pvbk\Desktop\myhtmlfiles2replace\";
+var converter = new Converter();
+converter.ConvertFiles2Replace(dirPath);
 ```
 
 ## Customise
