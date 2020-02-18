@@ -74,7 +74,7 @@ namespace Html2Markdown
 						}
 					}
 				}
-				File.Delete(path);
+				//File.Delete(path);
 			}
 		}
 
@@ -90,7 +90,9 @@ namespace Html2Markdown
 		/// <returns>A Markdown representation of the passed in Html</returns>
 		public string Convert(string html)
 		{
-			return CleanWhiteSpace(_replacers.Aggregate(html, (current, element) => element.Replace(current)));
+			string readyHtml = html.Replace("<th>", "<td>");
+		    readyHtml = readyHtml.Replace("</th>", "</td>");
+			return CleanWhiteSpace(_replacers.Aggregate(readyHtml, (current, element) => element.Replace(current)));
 		}
 
 		private static string CleanWhiteSpace(string markdown)
@@ -100,6 +102,7 @@ namespace Html2Markdown
 			cleaned = Regex.Replace(cleaned, @"(> \r\n){2,}", "> \r\n");
 			cleaned = Regex.Replace(cleaned, @"^(\r\n)+", "");
 			cleaned = Regex.Replace(cleaned, @"(\r\n)+$", "");
+			cleaned = Regex.Replace(cleaned, @"(?<=#\s+)(\s*)", "");
 			return cleaned;
 		}
 	}

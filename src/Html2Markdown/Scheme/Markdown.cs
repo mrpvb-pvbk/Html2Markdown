@@ -141,6 +141,10 @@ namespace Html2Markdown.Scheme {
 			new CustomReplacer
 			{
 				CustomAction = HtmlParser.ReplaceEntites
+			},
+			new CustomReplacer
+			{
+				CustomAction = HtmlParser.ReplaceTable
 			}
 		};
 		public IList<IReplacer> Replacers()

@@ -226,6 +226,47 @@ namespace Html2Markdown.Replacement
 			return doc.DocumentNode.OuterHtml;
 		}
 
+		public static string ReplaceTable(string html)
+		{
+			var finalHtml = html;
+			var doc = GetHtmlDocument(finalHtml);
+			var nodes = doc.DocumentNode.SelectNodes("//table");
+			if (nodes == null)
+			{
+				return finalHtml;
+			}
+
+			nodes.ToList().ForEach(node =>
+			{
+				var markdown = "\n";
+				var trList = node.ChildNodes.Where(x => x.Name == "tr");
+				bool firstRow = true;
+				foreach (var tr in trList)
+				{
+					var tdList = tr.ChildNodes.Where(x => x.Name == "td");
+
+					foreach (var td in tdList)
+					{
+						markdown += " | " + td.InnerText;
+					}
+					markdown += " |\n";
+					if (firstRow)
+					{
+						foreach (var tw in tdList)
+						{
+							markdown += " | ---";
+						}
+						markdown += " |\n";
+						firstRow = false;
+					}
+				}
+
+				ReplaceNode(node, markdown);
+			});
+
+			return doc.DocumentNode.OuterHtml;
+		}
+
 		private static bool IsEmptyLink(string linkText, string href)
 		{
 			var length = linkText.Length + href.Length;
