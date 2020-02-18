@@ -74,7 +74,7 @@ namespace Html2Markdown
 						}
 					}
 				}
-				//File.Delete(path);
+				File.Delete(path);
 			}
 		}
 
