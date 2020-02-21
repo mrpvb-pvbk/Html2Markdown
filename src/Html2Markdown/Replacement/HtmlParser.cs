@@ -247,14 +247,14 @@ namespace Html2Markdown.Replacement
 
 					foreach (var td in tdList)
 					{
-						markdown += " | " + td.InnerText;
+						markdown += "| " + td.InnerText.Replace(" | ", " `|` ") + " ";
 					}
 					markdown += " |\n";
 					if (firstRow)
 					{
 						foreach (var tw in tdList)
 						{
-							markdown += " | ---";
+							markdown += "| --- ";
 						}
 						markdown += " |\n";
 						firstRow = false;

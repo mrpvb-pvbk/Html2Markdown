@@ -165,7 +165,27 @@ namespace Html2Markdown.Scheme {
 			new CustomReplacer
 			{
 				CustomAction = HtmlParser.ReplaceTable
-			}
+			},
+			new PatternReplacer
+			{
+				Pattern = @"</?enter[^>]*>",
+				Replacement = ""
+			},
+			new PatternReplacer
+			{
+				Pattern = @"</?cmath[^>]*>",
+				Replacement = ""
+			},
+			new PatternReplacer
+			{
+				Pattern = @"</?iostream[^>]*>",
+				Replacement = ""
+			},
+			new PatternReplacer
+			{
+				Pattern = @"</?iomanip[^>]*>",
+				Replacement = ""
+			},
 		};
 		public IList<IReplacer> Replacers()
 		{

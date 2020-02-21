@@ -103,6 +103,8 @@ namespace Html2Markdown
 			cleaned = Regex.Replace(cleaned, @"^(\r\n)+", "");
 			cleaned = Regex.Replace(cleaned, @"(\r\n)+$", "");
 			cleaned = Regex.Replace(cleaned, @"(?<=#\s+)(\s*)", "");
+
+			cleaned = cleaned.EndsWith(">") ? cleaned.Remove(cleaned.Length - 1) : cleaned ;
 			return cleaned;
 		}
 	}
