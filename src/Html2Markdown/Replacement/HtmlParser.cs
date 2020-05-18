@@ -29,12 +29,12 @@ namespace Html2Markdown.Replacement
 			var list = Regex.Match(html, @"<(ul|ol)\b[^>]*>([\s\S]*?)<\/\1>");
 			var listType = list.Groups[1].Value;
 			var listItems = Regex.Split(list.Groups[2].Value, "<li[^>]*>");
-			if(!listItems.Any(i => !String.IsNullOrEmpty(i)))
+			if (!listItems.Any(i => !String.IsNullOrEmpty(i)))
 			{
 				return String.Empty;
 			}
 			listItems = listItems.Skip(1).ToArray();
-			
+
 			var counter = 0;
 			var markdownList = new List<string>();
 			listItems.ToList().ForEach(listItem =>
@@ -42,7 +42,8 @@ namespace Html2Markdown.Replacement
 					var listPrefix = (listType.Equals("ol")) ? string.Format("{0}.  ", ++counter) : "*   ";
 					var finalList = listItem.Replace(@"</li>", string.Empty);
 
-					if (finalList.Trim().Length == 0) {
+					if (finalList.Trim().Length == 0)
+					{
 						return;
 					}
 
@@ -65,7 +66,8 @@ namespace Html2Markdown.Replacement
 		{
 			var doc = GetHtmlDocument(html);
 			var nodes = doc.DocumentNode.SelectNodes("//pre");
-			if (nodes == null) {
+			if (nodes == null)
+			{
 				return html;
 			}
 
@@ -82,9 +84,11 @@ namespace Html2Markdown.Replacement
 
 		private static string ConvertPre(string html)
 		{
-			var tag = TabsToSpaces(html);
+			var tag = html.Insert(0, "```");
+			tag += "\n```";
+			tag = TabsToSpaces(tag);
 			tag = IndentNewLines(tag);
-			return Environment.NewLine + Environment.NewLine + tag + Environment.NewLine;
+			return Environment.NewLine + tag + Environment.NewLine;
 		}
 
 		private static string IndentNewLines(string tag)
@@ -101,13 +105,14 @@ namespace Html2Markdown.Replacement
 		{
 			var doc = GetHtmlDocument(html);
 			var nodes = doc.DocumentNode.SelectNodes("//img");
-			if (nodes == null) {
+			if (nodes == null)
+			{
 				return html;
 			}
 
 			nodes.ToList().ForEach(node =>
 				{
-					
+
 					var src = node.Attributes.GetAttributeOrEmpty("src");
 					var alt = node.Attributes.GetAttributeOrEmpty("alt");
 					var title = node.Attributes.GetAttributeOrEmpty("title");
@@ -124,7 +129,8 @@ namespace Html2Markdown.Replacement
 		{
 			var doc = GetHtmlDocument(html);
 			var nodes = doc.DocumentNode.SelectNodes("//a");
-			if (nodes == null) {
+			if (nodes == null)
+			{
 				return html;
 			}
 
@@ -176,7 +182,8 @@ namespace Html2Markdown.Replacement
 			var finalHtml = html;
 			var doc = GetHtmlDocument(finalHtml);
 			var nodes = doc.DocumentNode.SelectNodes("//blockquote");
-			if (nodes == null) {
+			if (nodes == null)
+			{
 				return finalHtml;
 			}
 
@@ -210,7 +217,8 @@ namespace Html2Markdown.Replacement
 		{
 			var doc = GetHtmlDocument(html);
 			var nodes = doc.DocumentNode.SelectNodes("//p");
-			if (nodes == null) {
+			if (nodes == null)
+			{
 				return html;
 			}
 
@@ -249,14 +257,14 @@ namespace Html2Markdown.Replacement
 					{
 						markdown += "| " + td.InnerText.Replace(" | ", " `|` ") + " ";
 					}
-					markdown += " |\n";
+					markdown += "|\n";
 					if (firstRow)
 					{
 						foreach (var tw in tdList)
 						{
 							markdown += "| --- ";
 						}
-						markdown += " |\n";
+						markdown += "|\n";
 						firstRow = false;
 					}
 				}
@@ -291,19 +299,20 @@ namespace Html2Markdown.Replacement
 			{
 				node.ParentNode.ReplaceChild(markdownNode.ParentNode, node);
 			}
-			
+
 		}
 
 		private static string IndentLines(string content)
 		{
-			var lines = content.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+			var lines = content.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
 			return lines.Aggregate("", (current, line) => current + IndentLine(line));
 		}
 
 		private static string IndentLine(string line)
 		{
-			if (line.Trim().Equals(string.Empty)) {
+			if (line.Trim().Equals(string.Empty))
+			{
 				return "";
 			}
 			return line + Environment.NewLine + "    ";
