@@ -85,9 +85,8 @@ namespace Html2Markdown.Replacement
 		private static string ConvertPre(string html)
 		{
 			var tag = html.Insert(0, "```");
-			tag += "\n```";
 			tag = TabsToSpaces(tag);
-			tag = IndentNewLines(tag);
+			tag = tag.TrimEnd(' ') + "```";
 			return Environment.NewLine + tag + Environment.NewLine;
 		}
 
@@ -255,7 +254,7 @@ namespace Html2Markdown.Replacement
 
 					foreach (var td in tdList)
 					{
-						markdown += "| " + td.InnerText.Replace(" | ", " `|` ") + " ";
+						markdown += "| " + td.InnerText.Replace("|", @"\|").ToString().Replace(Environment.NewLine, "") + " ";
 					}
 					markdown += "|\n";
 					if (firstRow)

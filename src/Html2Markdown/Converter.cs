@@ -108,7 +108,6 @@ namespace Html2Markdown
 			cleaned = cleaned.Replace("\\`", "`\\``");
 			cleaned = cleaned.Replace("\\\"", "`\\\"`");
 			cleaned = cleaned.Replace("*****", @"**\***");
-			cleaned = cleaned.Replace("||", @"\|\|");
 			// artifacts
 			cleaned = cleaned.Replace("</float>", "");
 			cleaned = cleaned.EndsWith(">") ? cleaned.Remove(cleaned.Length - 1) : cleaned ;
