@@ -107,6 +107,11 @@ namespace Html2Markdown.Scheme {
 			},
 			new PatternReplacer
 			{
+				Pattern = @"<div[^>]*>.*?</div>",
+				Replacement = ""
+			},
+			new PatternReplacer
+			{
 				Pattern = @"<meta[^>]*>",
 				Replacement = ""
 			},
